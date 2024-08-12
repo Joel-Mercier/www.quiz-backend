@@ -12,6 +12,7 @@ import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
 import JamsController from '#controllers/jams_controller'
 import FollowsController from '#controllers/follows_controller'
+import SessionsController from '#controllers/sessions_controller'
 
 router
   .group(() => {
@@ -46,6 +47,8 @@ router
               guards: ['api'],
             })
           )
+        router.post('auth/login', [SessionsController, 'login'])
+        router.post('auth/logout', [SessionsController, 'logout'])
       })
       .prefix('/v1')
   })
