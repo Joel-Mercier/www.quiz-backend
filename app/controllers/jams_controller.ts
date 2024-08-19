@@ -1,4 +1,5 @@
 import Jam from '#models/jam'
+import { createJamValidator, updateJamValidator } from '#validators/jam'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class JamsController {
@@ -17,8 +18,9 @@ export default class JamsController {
    * Handle form submission for the create action
    */
   async store({ request }: HttpContext) {
+    const payload = await request.validateUsing(createJamValidator)
     const jam = new Jam()
-    await jam.fill(request.body()).save()
+    await jam.fill(payload).save()
     return jam.serialize()
   }
 
@@ -33,9 +35,10 @@ export default class JamsController {
   /**
    * Handle form submission for the edit action
    */
-  async update({ params, request }: HttpContext) {
-    const jam = await Jam.findOrFail(params.id)
-    await jam.merge(request.body()).save()
+  async update({ request }: HttpContext) {
+    const payload = await request.validateUsing(updateJamValidator)
+    const jam = await Jam.findOrFail(payload.params.id)
+    await jam.merge(payload).save()
     return jam.serialize()
   }
 

@@ -1,4 +1,5 @@
 import User from '#models/user'
+import { createUserValidator, updateUserValidator } from '#validators/user'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class UsersController {
@@ -17,8 +18,9 @@ export default class UsersController {
    * Handle form submission for the create action
    */
   async store({ request }: HttpContext) {
+    const payload = await request.validateUsing(createUserValidator)
     const user = new User()
-    await user.fill(request.body()).save()
+    await user.fill(payload).save()
     return user.serialize()
   }
 
@@ -33,9 +35,12 @@ export default class UsersController {
   /**
    * Handle form submission for the edit action
    */
-  async update({ params, request }: HttpContext) {
-    const user = await User.findOrFail(params.id)
-    await user.merge(request.body()).save()
+  async update({ request, auth }: HttpContext) {
+    const payload = await request.validateUsing(updateUserValidator, {
+      meta: { userId: auth.user!.id },
+    })
+    const user = await User.findOrFail(payload.params.id)
+    await user.merge(payload).save()
     return user.serialize()
   }
 
