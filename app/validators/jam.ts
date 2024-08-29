@@ -8,6 +8,14 @@ export const createJamValidator = vine.compile(
     key: vine.enum(KEYS),
     bpm: vine.number().min(0).max(300).positive(),
     scale: vine.enum(SCALES),
+    sounds: vine.array(
+      vine.object({
+        file: vine.file({
+          size: '10mb',
+          extnames: ['mp3', 'wav', 'ogg'],
+        }),
+      })
+    ),
   })
 )
 

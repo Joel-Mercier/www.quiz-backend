@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
+import { BaseModel, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
 import User from './user.js'
-import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
+import Sound from './sound.js'
 
 export enum KEYS {
   C = 'C',
@@ -48,6 +49,9 @@ export default class Jam extends BaseModel {
 
   @column()
   declare published: boolean
+
+  @hasMany(() => Sound)
+  declare sounds: HasMany<typeof Sound>
 
   @belongsTo(() => User)
   declare user: BelongsTo<typeof User>
