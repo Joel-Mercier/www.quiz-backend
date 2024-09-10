@@ -54,7 +54,7 @@ router
           .resource('categories', CategoriesController)
           .apiOnly()
           .use(
-            ['destroy', 'index', 'show', 'store'],
+            ['index', 'show'],
             middleware.auth({
               guards: ['api'],
             })
@@ -81,7 +81,7 @@ router
           .resource('question_types', QuestionTypesController)
           .apiOnly()
           .use(
-            ['destroy', 'index', 'show', 'store'],
+            ['index', 'show'],
             middleware.auth({
               guards: ['api'],
             })
