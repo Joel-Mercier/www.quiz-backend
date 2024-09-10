@@ -17,6 +17,7 @@ const dbConfig = defineConfig({
       seeders: {
         paths: ['./database/seeders'],
       },
+      debug: false,
     },
   },
 })

@@ -6,6 +6,7 @@ import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { AccessToken, DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
 import Jam from './jam.js'
+import Quiz from './quiz.js'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -31,8 +32,8 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column()
   declare isAdmin: boolean
 
-  @hasMany(() => Jam)
-  declare jams: HasMany<typeof Jam>
+  @hasMany(() => Quiz)
+  declare quizzes: HasMany<typeof Quiz>
 
   @manyToMany(() => User, {
     pivotTimestamps: true,
