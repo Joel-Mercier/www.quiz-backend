@@ -13,6 +13,7 @@
 */
 
 export const policies = {
+  UserPolicy: () => import('#policies/user_policy'),
   ScorePolicy: () => import('#policies/score_policy'),
   GamePolicy: () => import('#policies/game_policy'),
   CollectionPolicy: () => import('#policies/collection_policy'),

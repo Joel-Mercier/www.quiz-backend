@@ -32,10 +32,10 @@ export default class UsersController {
   }
 
   async update({ request, auth }: HttpContext) {
+    const user = auth.user!
     const {avatar, ...payload} = await request.validateUsing(updateUserValidator, {
-      meta: { userId: auth.user!.id },
+      meta: { userId: user.id },
     })
-    const user = await User.findOrFail(payload.params.id)
     if (avatar) {
       await avatar.move(app.makePath('storage/uploads/users/avatar'), {
         name: `${cuid()}.${avatar.extname}`
@@ -46,8 +46,7 @@ export default class UsersController {
     return user.serialize()
   }
 
-  async destroy({ params }: HttpContext) {
-    const user = await User.findOrFail(params.id)
-    await user.delete()
+  async destroy({ auth }: HttpContext) {
+    await auth.user!.delete()
   }
 }

@@ -1,4 +1,5 @@
 import Category from "#models/category"
+import CategoryPolicy from "#policies/category_policy"
 import { createCategoryValidator, updateCategoryValidator } from "#validators/category"
 import { cuid } from "@adonisjs/core/helpers"
 import { HttpContext } from "@adonisjs/core/http"
@@ -13,7 +14,10 @@ export default class CategoriesController {
     return categories.serialize()
   }
 
-  async store({ request }: HttpContext) {
+  async store({ request, bouncer, response }: HttpContext) {
+    if (await bouncer.with(CategoryPolicy).denies('create')) {
+      return response.forbidden('Cannot create a category')
+    }
     const {image, ...payload} = await request.validateUsing(createCategoryValidator)
     const category = new Category()
     if (image) {
@@ -31,7 +35,10 @@ export default class CategoriesController {
     return category.serialize()
   }
 
-  async update({ request }: HttpContext) {
+  async update({ request, bouncer, response }: HttpContext) {
+    if (await bouncer.with(CategoryPolicy).denies('edit')) {
+      return response.forbidden('Cannot edit a category')
+    }
     const {image, ...payload} = await request.validateUsing(updateCategoryValidator)
     const category = await Category.findOrFail(request.params().id)
     if (image) {
@@ -44,7 +51,10 @@ export default class CategoriesController {
     return category.serialize()
   }
 
-  async destroy({ params }: HttpContext) {
+  async destroy({ params, bouncer, response }: HttpContext) {
+    if (await bouncer.with(CategoryPolicy).denies('delete')) {
+      return response.forbidden('Cannot delete a category')
+    }
     const category = await Category.findOrFail(params.id)
     await category.delete()
   }

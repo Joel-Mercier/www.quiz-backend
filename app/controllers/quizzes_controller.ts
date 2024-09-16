@@ -1,4 +1,5 @@
 import Quiz from '#models/quiz'
+import QuizPolicy from '#policies/quiz_policy'
 import { createQuizValidator, updateQuizValidator } from '#validators/quiz'
 import { cuid } from '@adonisjs/core/helpers'
 import type { HttpContext } from '@adonisjs/core/http'
@@ -31,9 +32,12 @@ export default class QuizzesController {
     return quiz.serialize()
   }
 
-  async update({ request }: HttpContext) {
+  async update({ request, bouncer, response }: HttpContext) {
     const {image, ...payload} = await request.validateUsing(updateQuizValidator)
     const quiz = await Quiz.findOrFail(request.params().id)
+    if (await bouncer.with(QuizPolicy).denies('edit', quiz)) {
+      return response.forbidden('Cannot edit a quiz that is not owned by the user')
+    }
     if (image) {
       await image.move(app.makePath('storage/uploads/quizzes/image'), {
         name: `${cuid()}.${image.extname}`
@@ -44,8 +48,11 @@ export default class QuizzesController {
     return quiz.serialize()
   }
 
-  async destroy({ params }: HttpContext) {
+  async destroy({ params, bouncer, response }: HttpContext) {
     const quiz = await Quiz.findOrFail(params.id)
+    if (await bouncer.with(QuizPolicy).denies('delete', quiz)) {
+      return response.forbidden('Cannot delete a quiz that is not owned by the user')
+    }
     await quiz.delete()
   }
 }

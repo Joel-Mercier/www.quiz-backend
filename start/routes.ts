@@ -19,6 +19,7 @@ import QuestionTypesController from '#controllers/question_types_controller'
 import CollectionsController from '#controllers/collections_controller'
 import GamesController from '#controllers/games_controller'
 import LikesController from '#controllers/likes_controller'
+import HealthChecksController from '#controllers/health_checks_controller'
 
 router
   .group(() => {
@@ -28,7 +29,7 @@ router
           .resource('users', UsersController)
           .apiOnly()
           .use(
-            '*',
+            ['index', 'show', 'update', 'destroy'],
             middleware.auth({
               guards: ['api'],
             })
@@ -81,7 +82,7 @@ router
             })
           )
         router
-          .resource('questions', QuestionsController)
+          .resource('quizzes.questions', QuestionsController)
           .apiOnly()
           .use(
             ['destroy', 'index', 'show', 'store', 'update'],
@@ -114,3 +115,6 @@ router
       .prefix('/v1')
   })
   .prefix('/api')
+
+  router.get('/health', [HealthChecksController])
+

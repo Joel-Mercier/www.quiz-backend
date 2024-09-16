@@ -3,7 +3,7 @@ import { loginValidator, logoutValidator } from '#validators/session'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class SessionsController {
-  async login({ request, logger }: HttpContext) {
+  async login({ request }: HttpContext) {
     const payload = await request.validateUsing(loginValidator)
     const { email, password } = payload
     const user = await User.verifyCredentials(email, password)
