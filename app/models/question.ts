@@ -15,6 +15,9 @@ export default class Question extends BaseModel {
   @column()
   declare timeLimit: number
 
+  @column()
+  declare file: string
+
   @belongsTo(() => QuestionType)
   declare type: BelongsTo<typeof QuestionType>
 

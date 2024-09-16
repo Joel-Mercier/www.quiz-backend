@@ -13,6 +13,9 @@
 */
 
 export const policies = {
+  ScorePolicy: () => import('#policies/score_policy'),
+  GamePolicy: () => import('#policies/game_policy'),
+  CollectionPolicy: () => import('#policies/collection_policy'),
   QuestionOptionPolicy: () => import('#policies/question_option_policy'),
   QuestionTypePolicy: () => import('#policies/question_type_policy'),
   QuestionPolicy: () => import('#policies/question_policy'),

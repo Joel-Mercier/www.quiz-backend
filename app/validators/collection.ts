@@ -1,21 +1,25 @@
 import vine from '@vinejs/vine'
 
-export const createCategoryValidator = vine.compile(
+export const createCollectionValidator = vine.compile(
   vine.object({
     name: vine.string().minLength(3).trim(),
+    isPublic: vine.boolean(),
+    user_id: vine.number(),
     image: vine.file({
       size: '1mb',
       extnames: ['jpg', 'png', 'jpeg', 'webp'],
-    }).nullable(),
+    }),
   })
 )
 
-export const updateCategoryValidator = vine.compile(
+export const updateCollectionValidator = vine.compile(
   vine.object({
     name: vine.string().minLength(3).trim(),
+    isPublic: vine.boolean(),
+    user_id: vine.number(),
     image: vine.file({
       size: '1mb',
       extnames: ['jpg', 'png', 'jpeg', 'webp'],
-    }).nullable(),
+    }),
   })
 )

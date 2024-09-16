@@ -1,17 +1,17 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'jams'
+  protected tableName = 'quizzes'
 
   async up() {
     this.schema.alterTable(this.tableName, (table) => {
-      table.string('scale').notNullable()
+      table.integer('collection_id').unsigned().references('collections.id').onDelete('CASCADE')
     })
   }
 
   async down() {
     this.schema.alterTable(this.tableName, (table) => {
-      table.dropColumn('scale')
+      table.dropColumn('collection_id')
     })
   }
 }

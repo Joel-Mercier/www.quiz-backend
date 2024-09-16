@@ -1,12 +1,15 @@
 import { DateTime } from 'luxon'
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
-import { BaseModel, column, hasMany, manyToMany } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasMany, hasManyThrough, manyToMany } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { AccessToken, DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
-import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
-import Jam from './jam.js'
+import type { HasMany, ManyToMany, HasManyThrough } from '@adonisjs/lucid/types/relations'
 import Quiz from './quiz.js'
+import Like from './like.js'
+import Collection from './collection.js'
+import Game from './game.js'
+import Score from './score.js'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -32,8 +35,31 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column()
   declare isAdmin: boolean
 
+  @column()
+  declare avatar: string
+
   @hasMany(() => Quiz)
   declare quizzes: HasMany<typeof Quiz>
+
+  @hasMany(() => Like)
+  declare likes: HasMany<typeof Like>
+
+  @hasMany(() => Collection)
+  declare collections: HasMany<typeof Collection>
+
+  @hasMany(() => Game)
+  declare gamesAsLeader: HasMany<typeof Game>
+
+  @manyToMany(() => Game, {
+    pivotTimestamps: true,
+  })
+  declare games: ManyToMany<typeof Game>
+
+  @hasMany(() => Score)
+  declare scores: HasMany<typeof Score>
+
+  @hasManyThrough([() => Quiz, () => Like])
+  declare likedQuizzes: HasManyThrough<typeof Quiz>
 
   @manyToMany(() => User, {
     pivotTimestamps: true,

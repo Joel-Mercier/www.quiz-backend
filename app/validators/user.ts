@@ -14,6 +14,10 @@ export const createUserValidator = vine.compile(
       }),
     password: vine.string().minLength(8),
     passwordConfirmation: vine.string().minLength(8).sameAs('password'),
+    avatar: vine.file({
+      size: '1mb',
+      extnames: ['jpg', 'png', 'jpeg', 'webp'],
+    }).nullable(),
   })
 )
 
@@ -33,8 +37,13 @@ export const updateUserValidator = vine.withMetaData<{ userId: number }>().compi
           .first()
         return !user
       }),
+    avatar: vine.file({
+      size: '1mb',
+      extnames: ['jpg', 'png', 'jpeg', 'webp'],
+    }).nullable(),
     params: vine.object({
       id: vine.number(),
     }),
+    
   })
 )

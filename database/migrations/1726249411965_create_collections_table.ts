@@ -1,14 +1,16 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'follows'
+  protected tableName = 'collections'
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id').primary()
-      table.integer('follower_id').unsigned().references('users.id').onDelete('CASCADE')
-      table.integer('followed_id').unsigned().references('users.id').onDelete('CASCADE')
-      table.unique(['follower_id', 'followed_id'])
+      table.increments('id')
+      table.string('name').notNullable()
+      table.boolean('isPublic').notNullable().defaultTo(true)
+      table.string('image').nullable()
+      table.integer('user_id').unsigned().references('users.id').onDelete('CASCADE')
+
       table.timestamp('created_at').notNullable()
       table.timestamp('updated_at').nullable()
     })

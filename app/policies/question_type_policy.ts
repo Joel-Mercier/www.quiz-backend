@@ -1,5 +1,4 @@
 import User from '#models/user'
-import QuestionType from '#models/question_type'
 import { BasePolicy } from '@adonisjs/bouncer'
 import { AuthorizerResponse } from '@adonisjs/bouncer/types'
 

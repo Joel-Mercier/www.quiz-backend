@@ -1,15 +1,17 @@
+import { GameStatus } from '#models/game'
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'sounds'
+  protected tableName = 'games'
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-
-      table.string('file').notNullable()
-      table.integer('jam_id').unsigned().references('jams.id').onDelete('CASCADE') // delete post when user is deleted
-
+      table.enum('status', Object.values(GameStatus))
+        .defaultTo(GameStatus.PENDING)
+        .notNullable()
+      table.dateTime('finishedAt').nullable()
+      table.integer('user_id').unsigned().references('users.id').onDelete('CASCADE')
       table.timestamp('created_at').notNullable()
       table.timestamp('updated_at').nullable()
     })

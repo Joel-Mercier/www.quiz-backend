@@ -1,9 +1,10 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
-import type { HasMany } from '@adonisjs/lucid/types/relations'
+import { BaseModel, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
+import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
+import User from './user.js'
 import Quiz from './quiz.js'
 
-export default class Category extends BaseModel {
+export default class Collection extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
@@ -11,7 +12,13 @@ export default class Category extends BaseModel {
   declare name: string
 
   @column()
+  declare isPublic: boolean
+
+  @column()
   declare image: string
+
+  @belongsTo(() => User)
+  declare user: BelongsTo<typeof User>
 
   @hasMany(() => Quiz)
   declare quizzes: HasMany<typeof Quiz>

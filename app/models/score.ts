@@ -1,17 +1,21 @@
 import { DateTime } from 'luxon'
 import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
+import User from './user.js'
+import Game from './game.js'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
-import Jam from './jam.js'
 
-export default class Sound extends BaseModel {
+export default class Score extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
-  @belongsTo(() => Jam)
-  declare jam: BelongsTo<typeof Jam>
+  @belongsTo(() => User)
+  declare user: BelongsTo<typeof User>
+
+  @belongsTo(() => Game)
+  declare game: BelongsTo<typeof Game>
 
   @column()
-  declare file: string
+  declare score: number
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

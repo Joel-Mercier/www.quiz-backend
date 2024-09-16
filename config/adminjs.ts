@@ -3,12 +3,12 @@ import { AdminJSProviderConfig, LucidResource } from '@adminjs/adonis'
 import componentLoader from '../app/admin/component_loader.js'
 import authProvider from '../app/admin/auth.js'
 import User from '#models/user'
-import Jam from '#models/jam'
 import Category from '#models/category'
 import Quiz from '#models/quiz'
 import Question from '#models/question'
 import QuestionOption from '#models/question_option'
 import QuestionType from '#models/question_type'
+import Collection from '#models/collection'
 
 const adminjsConfig: AdminJSProviderConfig = {
   adapter: {
@@ -31,7 +31,7 @@ const adminjsConfig: AdminJSProviderConfig = {
         },
       },
       {
-        resource: new LucidResource(Jam, 'sqlite'),
+        resource: new LucidResource(Collection, 'sqlite'),
         options: {
           navigation: null,
           properties: {

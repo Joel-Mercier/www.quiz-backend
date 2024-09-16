@@ -1,23 +1,18 @@
 import { DateTime } from 'luxon'
 import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
-import Question from './question.js'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import User from './user.js'
+import Quiz from './quiz.js'
 
-export default class QuestionOption extends BaseModel {
+export default class Like extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
-  @column()
-  declare title: string
+  @belongsTo(() => User)
+  declare user: BelongsTo<typeof User>
 
-  @column()
-  declare isAnswer: boolean
-
-  @column()
-  declare file: string
-
-  @belongsTo(() => Question)
-  declare question: BelongsTo<typeof Question>
+  @belongsTo(() => Quiz)
+  declare quiz: BelongsTo<typeof Quiz>
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
