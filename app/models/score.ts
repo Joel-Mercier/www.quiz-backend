@@ -8,6 +8,12 @@ export default class Score extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
+  @column({ serializeAs: null })
+  declare userId: number
+
+  @column({ serializeAs: null })
+  declare gameId: number
+
   @belongsTo(() => User)
   declare user: BelongsTo<typeof User>
 

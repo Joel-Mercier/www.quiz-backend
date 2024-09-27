@@ -10,7 +10,7 @@ export default class extends BaseSchema {
       table.enum('status', Object.values(GameStatus))
         .defaultTo(GameStatus.PENDING)
         .notNullable()
-      table.dateTime('finishedAt').nullable()
+      table.dateTime('finished_at').nullable()
       table.integer('user_id').unsigned().references('users.id').onDelete('CASCADE')
       table.timestamp('created_at').notNullable()
       table.timestamp('updated_at').nullable()

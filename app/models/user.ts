@@ -32,7 +32,11 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column({ serializeAs: null })
   declare password: string
 
-  @column()
+  @column({
+    serialize: (value: 1 | 0) => {
+      return value === 1
+    },
+  })
   declare isAdmin: boolean
 
   @column()

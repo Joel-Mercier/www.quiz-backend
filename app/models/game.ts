@@ -20,6 +20,9 @@ export default class Game extends BaseModel {
   @column()
   declare status: GameStatus
 
+  @column({ serializeAs: null })
+  declare userId: number
+
   @belongsTo(() => User)
   declare user: BelongsTo<typeof User>
 

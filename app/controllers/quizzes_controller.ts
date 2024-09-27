@@ -1,6 +1,7 @@
 import Quiz from '#models/quiz'
 import QuizPolicy from '#policies/quiz_policy'
-import { createQuizValidator, updateQuizValidator } from '#validators/quiz'
+import QuizService from '#services/quiz_service'
+import { createQuizValidator, filterQuizValidator, updateQuizValidator } from '#validators/quiz'
 import { cuid } from '@adonisjs/core/helpers'
 import type { HttpContext } from '@adonisjs/core/http'
 import app from '@adonisjs/core/services/app'
@@ -9,7 +10,8 @@ export default class QuizzesController {
   async index({ request }: HttpContext) {
     const page = request.input('page', 1)
     const limit = 20
-    const quizzes = await Quiz.query().paginate(page, limit)
+    const filters = await filterQuizValidator.validate(request.qs())
+    const quizzes = await QuizService.getFiltered(filters, page, limit)
 
     return quizzes.serialize()
   }

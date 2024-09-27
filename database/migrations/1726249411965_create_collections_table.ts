@@ -7,7 +7,7 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.string('name').notNullable()
-      table.boolean('isPublic').notNullable().defaultTo(true)
+      table.boolean('is_public').notNullable().defaultTo(true)
       table.string('image').nullable()
       table.integer('user_id').unsigned().references('users.id').onDelete('CASCADE')
 

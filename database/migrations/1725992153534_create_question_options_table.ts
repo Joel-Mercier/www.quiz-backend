@@ -7,7 +7,7 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.string('title').notNullable()
-      table.boolean('isAnswer').notNullable().defaultTo(false)
+      table.boolean('is_answer').notNullable().defaultTo(false)
       table.integer('question_id').unsigned().references('questions.id').onDelete('CASCADE')
       table.timestamp('created_at').notNullable()
       table.timestamp('updated_at').nullable()

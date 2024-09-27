@@ -1,3 +1,4 @@
+import QuizService from '#services/quiz_service'
 import vine from '@vinejs/vine'
 
 export const createQuizValidator = vine.compile(
@@ -5,9 +6,9 @@ export const createQuizValidator = vine.compile(
     name: vine.string().minLength(3).trim(),
     description: vine.string().minLength(3).trim().optional(),
     isPublic: vine.boolean(),
-    user_id: vine.number(),
-    category_id: vine.number(),
-    collection_id: vine.number(),
+    userId: vine.number(),
+    categoryId: vine.number(),
+    collectionId: vine.number(),
     image: vine.file({
       size: '1mb',
       extnames: ['jpg', 'png', 'jpeg', 'webp'],
@@ -20,12 +21,26 @@ export const updateQuizValidator = vine.compile(
     name: vine.string().minLength(3).trim(),
     description: vine.string().minLength(3).trim().optional(),
     isPublic: vine.boolean(),
-    user_id: vine.number(),
-    category_id: vine.number(),
-    collection_id: vine.number(),
+    userId: vine.number(),
+    categoryId: vine.number(),
+    collectionId: vine.number(),
     image: vine.file({
       size: '1mb',
       extnames: ['jpg', 'png', 'jpeg', 'webp'],
     }).nullable(),
+  })
+)
+
+export const filterQuizValidator = vine.compile(
+  vine.object({
+    search: vine.string().trim().optional(),
+    category: vine.number().optional(),
+    collection: vine.number().optional(),
+    user: vine.number().optional(),
+    isPublic: vine.boolean().optional(),
+    sort: vine.string().exists(async (db, value) => {
+      return QuizService.sortOptions.some((option) => option.key === value)
+    }).optional(),
+    relations: vine.unionOfTypes([vine.array(vine.string()), vine.string()]),
   })
 )

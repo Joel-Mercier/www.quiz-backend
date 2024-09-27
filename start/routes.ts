@@ -65,12 +65,12 @@ router
         router
           .resource('quizzes', QuizzesController)
           .apiOnly()
-          .use(
-            ['destroy', 'index', 'show', 'store', 'update'],
-            middleware.auth({
-              guards: ['api'],
-            })
-          )
+          // .use(
+          //   ['destroy', 'index', 'show', 'store', 'update'],
+          //   middleware.auth({
+          //     guards: ['api'],
+          //   })
+          // )
         router
           .resource('quizzes.likes', LikesController)
           .apiOnly()
@@ -103,8 +103,9 @@ router
         router
           .resource('games', GamesController)
           .apiOnly()
+          .only(['index', 'show'])
           .use(
-            ['destroy', 'index', 'show', 'store', 'update'],
+            ['index', 'show'],
             middleware.auth({
               guards: ['api'],
             })

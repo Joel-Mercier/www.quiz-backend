@@ -10,11 +10,18 @@ export default class QuestionOption extends BaseModel {
   @column()
   declare title: string
 
-  @column()
+  @column({
+    serialize: (value: 1 | 0) => {
+      return value === 1
+    },
+  })
   declare isAnswer: boolean
 
   @column()
   declare file: string
+
+  @column({ serializeAs: null })
+  declare questionId: number
 
   @belongsTo(() => Question)
   declare question: BelongsTo<typeof Question>

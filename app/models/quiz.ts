@@ -21,7 +21,11 @@ export default class Quiz extends BaseModel {
   @column()
   declare timesPlayed: number
 
-  @column()
+  @column({
+    serialize: (value: 1 | 0) => {
+      return value === 1
+    },
+  })
   declare isPublic: boolean
 
   @column()
@@ -29,6 +33,15 @@ export default class Quiz extends BaseModel {
 
   @column()
   declare image: string
+
+  @column({ serializeAs: null })
+  declare userId: number
+
+  @column({ serializeAs: null })
+  declare categoryId: number
+
+  @column({ serializeAs: null })
+  declare collectionId: number
 
   @belongsTo(() => User)
   declare user: BelongsTo<typeof User>

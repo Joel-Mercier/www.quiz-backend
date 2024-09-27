@@ -18,8 +18,11 @@ export default class Question extends BaseModel {
   @column()
   declare file: string
 
+  @column({ serializeAs: null })
+  declare questionTypeId: number
+
   @belongsTo(() => QuestionType)
-  declare type: BelongsTo<typeof QuestionType>
+  declare questionType: BelongsTo<typeof QuestionType>
 
   @belongsTo(() => Quiz)
   declare quiz: BelongsTo<typeof Quiz>

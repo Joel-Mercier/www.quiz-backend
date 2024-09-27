@@ -5,13 +5,13 @@ export default class extends BaseSchema {
 
   async up() {
     this.schema.alterTable(this.tableName, (table) => {
-      table.bigint('likesCount').notNullable().defaultTo(0)
+      table.bigint('likes_count').notNullable().defaultTo(0)
     })
   }
 
   async down() {
     this.schema.alterTable(this.tableName, (table) => {
-      table.dropColumn('likesCount')
+      table.dropColumn('likes_count')
     })
   }
 }

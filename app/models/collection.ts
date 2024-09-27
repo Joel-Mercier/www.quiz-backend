@@ -11,11 +11,18 @@ export default class Collection extends BaseModel {
   @column()
   declare name: string
 
-  @column()
+  @column({
+    serialize: (value: 1 | 0) => {
+      return value === 1
+    },
+  })
   declare isPublic: boolean
 
   @column()
   declare image: string
+
+  @column({ serializeAs: null })
+  declare userId: number
 
   @belongsTo(() => User)
   declare user: BelongsTo<typeof User>
