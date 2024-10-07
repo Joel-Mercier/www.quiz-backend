@@ -1,5 +1,5 @@
 import User from '#models/user'
-import { loginValidator, logoutValidator } from '#validators/session'
+import { loginValidator } from '#validators/session'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class SessionsController {
@@ -11,11 +11,9 @@ export default class SessionsController {
     return token
   }
 
-  async logout({ request, auth }: HttpContext) {
-    const payload = await request.validateUsing(logoutValidator)
-    const user = await User.findOrFail(payload.id)
-    if (auth.isAuthenticated && user.currentAccessToken) {
-      await User.accessTokens.delete(user, user.currentAccessToken.identifier)
+  async logout({ auth }: HttpContext) {
+    if (auth.isAuthenticated && auth.user?.currentAccessToken) {
+      await User.accessTokens.delete(auth.user, auth.user.currentAccessToken.identifier)
     }
   }
 }

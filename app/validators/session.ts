@@ -6,9 +6,3 @@ export const loginValidator = vine.compile(
     password: vine.string().trim().minLength(8),
   })
 )
-
-export const logoutValidator = vine.compile(
-  vine.object({
-    id: vine.number(),
-  })
-)

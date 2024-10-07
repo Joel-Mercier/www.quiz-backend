@@ -1,16 +1,16 @@
 import Collection from "#models/collection"
 import CollectionPolicy from "#policies/collection_policy"
-import { createCollectionValidator, updateCollectionValidator } from "#validators/collection"
+import CollectionService from "#services/collection_service"
+import { createCollectionValidator, filterCollectionValidator, updateCollectionValidator } from "#validators/collection"
 import { cuid } from "@adonisjs/core/helpers"
 import { HttpContext } from "@adonisjs/core/http"
 import app from "@adonisjs/core/services/app"
 
 export default class CollectionsController {
   async index({ request }: HttpContext) {
-    const page = request.input('page', 1)
-    const limit = 20
-    const collections = await Collection.query().paginate(page, limit)
-
+    const filters = await filterCollectionValidator.validate(request.qs())
+    const collections = await CollectionService.getFiltered(filters)
+    
     return collections.serialize()
   }
 

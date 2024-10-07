@@ -111,7 +111,7 @@ router
             })
           )
         router.post('auth/login', [SessionsController, 'login'])
-        router.post('auth/logout', [SessionsController, 'logout'])
+        router.post('auth/logout', [SessionsController, 'logout']).use(middleware.auth({ guards: ['api'] }))
       })
       .prefix('/v1')
   })

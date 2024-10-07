@@ -8,10 +8,8 @@ import app from '@adonisjs/core/services/app'
 
 export default class QuizzesController {
   async index({ request }: HttpContext) {
-    const page = request.input('page', 1)
-    const limit = 20
     const filters = await filterQuizValidator.validate(request.qs())
-    const quizzes = await QuizService.getFiltered(filters, page, limit)
+    const quizzes = await QuizService.getFiltered(filters)
 
     return quizzes.serialize()
   }

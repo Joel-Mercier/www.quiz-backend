@@ -33,6 +33,8 @@ export const updateQuizValidator = vine.compile(
 
 export const filterQuizValidator = vine.compile(
   vine.object({
+    limit: vine.number().optional(),
+    page: vine.number().optional(),
     search: vine.string().trim().optional(),
     category: vine.number().optional(),
     collection: vine.number().optional(),
@@ -41,6 +43,6 @@ export const filterQuizValidator = vine.compile(
     sort: vine.string().exists(async (db, value) => {
       return QuizService.sortOptions.some((option) => option.key === value)
     }).optional(),
-    relations: vine.unionOfTypes([vine.array(vine.string()), vine.string()]),
+    relations: vine.array(vine.string()).optional(),
   })
 )

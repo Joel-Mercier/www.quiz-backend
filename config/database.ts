@@ -17,9 +17,10 @@ const dbConfig = defineConfig({
       seeders: {
         paths: ['./database/seeders/main'],
       },
-      debug: false,
+      debug: app.inProduction ? false : true,
     },
   },
+  prettyPrintDebugQueries: app.inProduction ? false : true,
 })
 
 export default dbConfig
