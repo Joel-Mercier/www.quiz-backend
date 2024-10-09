@@ -65,12 +65,12 @@ router
         router
           .resource('quizzes', QuizzesController)
           .apiOnly()
-          // .use(
-          //   ['destroy', 'index', 'show', 'store', 'update'],
-          //   middleware.auth({
-          //     guards: ['api'],
-          //   })
-          // )
+          .use(
+            ['destroy', 'index', 'show', 'store', 'update'],
+            middleware.auth({
+              guards: ['api'],
+            })
+          )
         router
           .resource('quizzes.likes', LikesController)
           .apiOnly()
@@ -112,6 +112,8 @@ router
           )
         router.post('auth/login', [SessionsController, 'login'])
         router.post('auth/logout', [SessionsController, 'logout']).use(middleware.auth({ guards: ['api'] }))
+        router.get('auth/:provider/redirect', [SessionsController, 'redirect'])
+        router.get('auth/:provider/callback', [SessionsController, 'callback'])
       })
       .prefix('/v1')
   })

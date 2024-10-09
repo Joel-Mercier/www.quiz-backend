@@ -68,6 +68,14 @@
     youch "^3.3.3"
     youch-terminal "^2.2.3"
 
+"@adonisjs/ally@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@adonisjs/ally/-/ally-5.0.2.tgz#de446878a717ce9010d498df78e2083eabd36edb"
+  integrity sha512-/A53dXiFwwwi9SM8U5dIffesCcNbklHqoME8zHYYO4KQ+dzg9CnubBtgcvH1XRJV8v52FgyUnPFFHDd8J3zI9A==
+  dependencies:
+    "@poppinss/oauth-client" "^5.1.2"
+    "@poppinss/utils" "^6.7.1"
+
 "@adonisjs/application@^8.3.1":
   version "8.3.1"
   resolved "https://registry.yarnpkg.com/@adonisjs/application/-/application-8.3.1.tgz#8ca815c177fed071f2a6e7b8afa86b79a8aef3c9"
@@ -2064,6 +2072,14 @@
     safe-buffer "5.2.1"
     uid-safe "2.1.5"
 
+"@poppinss/oauth-client@^5.1.2":
+  version "5.1.3"
+  resolved "https://registry.yarnpkg.com/@poppinss/oauth-client/-/oauth-client-5.1.3.tgz#6a58d414c5a965f084a172d7b4e6b0f7e9f1e309"
+  integrity sha512-cjgac/0pwk/J+x1Jei/cAHTzstCuZE7KRfmdVhClb9zMUskw477rZPZ86dg1LBghw+IGaPtnAgmxTV9pNWG9ZQ==
+  dependencies:
+    "@poppinss/utils" "^6.7.3"
+    got "^14.2.1"
+
 "@poppinss/prompts@^3.1.3":
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/@poppinss/prompts/-/prompts-3.1.3.tgz#bd0b2253640d9de4dea18f5f1fcdd9f3f4008735"
@@ -2072,6 +2088,24 @@
     "@poppinss/colors" "^4.1.3"
     "@poppinss/utils" "^6.7.3"
     enquirer "^2.4.1"
+
+"@poppinss/utils@^6.7.1":
+  version "6.8.3"
+  resolved "https://registry.yarnpkg.com/@poppinss/utils/-/utils-6.8.3.tgz#dfef2358fc8702b0e3a048d157c718c353717e2c"
+  integrity sha512-YGeH7pIUm9ExONURNH3xN61dBZ0SXgVuPA9E76t7EHeZHXPNrmR8TlbXQaka6kd5n+cpBNcHG4VsVfYf59bZ7g==
+  dependencies:
+    "@lukeed/ms" "^2.0.2"
+    "@types/bytes" "^3.1.4"
+    "@types/pluralize" "^0.0.33"
+    bytes "^3.1.2"
+    case-anything "^3.1.0"
+    flattie "^1.1.1"
+    pluralize "^8.0.0"
+    safe-stable-stringify "^2.5.0"
+    secure-json-parse "^2.7.0"
+    slash "^5.1.0"
+    slugify "^1.6.6"
+    truncatise "^0.0.8"
 
 "@poppinss/utils@^6.7.2", "@poppinss/utils@^6.7.3":
   version "6.7.3"
@@ -3570,6 +3604,11 @@ case-anything@^2.1.13:
   version "2.1.13"
   resolved "https://registry.yarnpkg.com/case-anything/-/case-anything-2.1.13.tgz#0cdc16278cb29a7fcdeb072400da3f342ba329e9"
   integrity sha512-zlOQ80VrQ2Ue+ymH5OuM/DlDq64mEm+B9UTdHULv5osUMD6HalNTblf2b1u/m6QecjsnOkBpqVZ+XPwIVsy7Ng==
+
+case-anything@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/case-anything/-/case-anything-3.1.0.tgz#43ba878c2381b2d28e6dead4548c94878d0d66c4"
+  integrity sha512-rRYnn5Elur8RuNHKoJ2b0tgn+pjYxL7BzWom+JZ7NKKn1lt/yGV/tUNwOovxYa9l9VL5hnXQdMc+mENbhJzosQ==
 
 chai@^5.1.0:
   version "5.1.1"
@@ -7410,7 +7449,7 @@ safe-regex@^2.1.1:
   dependencies:
     regexp-tree "~0.1.1"
 
-safe-stable-stringify@^2.3.1, safe-stable-stringify@^2.4.3:
+safe-stable-stringify@^2.3.1, safe-stable-stringify@^2.4.3, safe-stable-stringify@^2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/safe-stable-stringify/-/safe-stable-stringify-2.5.0.tgz#4ca2f8e385f2831c432a719b108a3bf7af42a1dd"
   integrity sha512-b3rppTKm9T+PsVCBEOUR46GWI7fdOs00VKZ1+9c1EWDaDMvjQc6tUwuFyIprgGgTcWoVHSKrU8H31ZHA2e0RHA==

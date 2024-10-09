@@ -42,6 +42,12 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column()
   declare avatar: string
 
+  @column()
+  declare provider: string
+
+  @column()
+  declare providerId: string
+
   @hasMany(() => Quiz)
   declare quizzes: HasMany<typeof Quiz>
 
