@@ -9,6 +9,7 @@ import Question from '#models/question'
 import QuestionOption from '#models/question_option'
 import QuestionType from '#models/question_type'
 import Collection from '#models/collection'
+import Achievement from '#models/achievement'
 
 const adminjsConfig: AdminJSProviderConfig = {
   adapter: {
@@ -90,6 +91,16 @@ const adminjsConfig: AdminJSProviderConfig = {
           },
         },
       },
+      {
+        resource: new LucidResource(Achievement, 'sqlite'),
+        options: {
+          navigation: null,
+          properties: {
+            createdAt: { isVisible: { edit: false, show: true, list: true, filter: true } },
+            updatedAt: { isVisible: { edit: false, show: true, list: true, filter: true } },
+          },
+        },
+      }
     ],
     pages: {},
     locale: {

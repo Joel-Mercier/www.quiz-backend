@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
+import { BaseModel, belongsTo, column, hasMany, scope } from '@adonisjs/lucid/orm'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import User from './user.js'
 import Quiz from './quiz.js'
@@ -35,4 +35,12 @@ export default class Collection extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  static public = scope((query) => {
+    query.where('isPublic', true)
+  })
+
+  static private = scope((query) => {
+    query.where('isPublic', false)
+  })
 }

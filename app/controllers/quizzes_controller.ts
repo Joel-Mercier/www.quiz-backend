@@ -28,7 +28,7 @@ export default class QuizzesController {
   }
 
   async show({ params }: HttpContext) {
-    const quiz = await Quiz.findOrFail(params.id)
+    const quiz = await Quiz.query().preload('user').preload('questions', (questionsQuery) => { questionsQuery.preload('questionType') }).where('id', params.id).firstOrFail()
     return quiz.serialize()
   }
 

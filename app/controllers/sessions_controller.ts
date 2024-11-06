@@ -13,16 +13,13 @@ export default class SessionsController {
   }
 
   async logout({ auth }: HttpContext) {
-    console.log(auth.isAuthenticated, auth?.user?.id)
     if (auth.isAuthenticated && auth.user?.currentAccessToken) {
       await User.accessTokens.delete(auth.user, auth.user.currentAccessToken.identifier)
     }
   }
 
   async redirect({ ally, request }: HttpContext) {
-    console.log(request.params())
     const payload = await request.validateUsing(providerValidator)
-    console.log(payload)
     return ally.use(payload.params.provider).redirect()
   }
 
@@ -49,8 +46,7 @@ export default class SessionsController {
       providerId: providerUser.id,
     }, {
       email: providerUser.email,
-      firstName: providerUser.name.split(' ')[0],
-      lastName: providerUser.name.split(' ')[1],
+      username: providerUser.name,
       isAdmin: false,
       provider: payload.params.provider,
       providerId: providerUser.id,
@@ -58,11 +54,7 @@ export default class SessionsController {
     })
 
     const token = await User.accessTokens.create(user)
-    console.log(token)
-    // return {
-    //   ...token,
-    //   success: true
-    // }
+
     response.redirect('wwwquiz://(app)/(tabs)/?token=' + token.value!.release(), false)
   }
 }

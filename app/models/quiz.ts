@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, column, hasMany, hasManyThrough } from '@adonisjs/lucid/orm'
+import { BaseModel, belongsTo, column, hasMany, hasManyThrough, scope } from '@adonisjs/lucid/orm'
 import User from './user.js'
 import type { BelongsTo, HasMany, HasManyThrough } from '@adonisjs/lucid/types/relations'
 import Question from './question.js'
@@ -30,6 +30,9 @@ export default class Quiz extends BaseModel {
 
   @column()
   declare likesCount: number
+
+  @column()
+  declare questionCount: number
 
   @column()
   declare image: string
@@ -69,4 +72,12 @@ export default class Quiz extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  static public = scope((query) => {
+    query.where('isPublic', true)
+  })
+
+  static private = scope((query) => {
+    query.where('isPublic', false)
+  })
 }

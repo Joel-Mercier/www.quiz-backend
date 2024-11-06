@@ -10,21 +10,23 @@ import Like from './like.js'
 import Collection from './collection.js'
 import Game from './game.js'
 import Score from './score.js'
+import Notification from './notification.js'
+import Achievement from './achievement.js'
+import encryption from '@adonisjs/core/services/encryption'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
   passwordColumnName: 'password',
 })
 
+export type TwoFactorSecret = { secret: string, uri: string, qr: string }
+
 export default class User extends compose(BaseModel, AuthFinder) {
   @column({ isPrimary: true })
   declare id: number
 
   @column()
-  declare firstName: string
-
-  @column()
-  declare lastName: string
+  declare username: string
 
   @column()
   declare email: string
@@ -60,16 +62,24 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @hasMany(() => Game)
   declare gamesAsLeader: HasMany<typeof Game>
 
-  @manyToMany(() => Game, {
-    pivotTimestamps: true,
-  })
-  declare games: ManyToMany<typeof Game>
+  @hasMany(() => Notification)
+  declare notifications: HasMany<typeof Notification>
 
   @hasMany(() => Score)
   declare scores: HasMany<typeof Score>
 
   @hasManyThrough([() => Quiz, () => Like])
   declare likedQuizzes: HasManyThrough<typeof Quiz>
+
+  @manyToMany(() => Game, {
+    pivotTimestamps: true,
+  })
+  declare games: ManyToMany<typeof Game>
+
+  @manyToMany(() => Achievement, {
+    pivotTimestamps: true,
+  })
+  declare achievements: ManyToMany<typeof Achievement>
 
   @manyToMany(() => User, {
     pivotTimestamps: true,
@@ -86,6 +96,23 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
+
+  @column({ consume: (value) => Boolean(value) })
+  declare isTwoFactorEnabled: boolean
+
+  @column({
+    serializeAs: null,
+    consume: (value: string) => (value ? encryption.decrypt(value) : null),
+    prepare: (value: string) => encryption.encrypt(value),
+  })
+  declare twoFactorSecret: TwoFactorSecret | null
+
+  @column({
+    serializeAs: null,
+    consume: (value: string) => (value ? encryption.decrypt(value) : null),
+    prepare: (value: string) => encryption.encrypt(value),
+  })
+  declare twoFactorRecoveryCodes: string[]
 
   static accessTokens = DbAccessTokensProvider.forModel(User, {
     expiresIn: '30 days',

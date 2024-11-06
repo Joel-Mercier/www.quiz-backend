@@ -39,6 +39,13 @@ export default await Env.create(new URL('../', import.meta.url), {
   */
   BREVO_API_KEY: Env.schema.string(),
 
+    /*
+  |----------------------------------------------------------
+  | Variables for configuring 2FA
+  |----------------------------------------------------------
+  */
+  APP_ISSUER: Env.schema.string(),
+
   /*
   |----------------------------------------------------------
   | Variables for configuring ally package

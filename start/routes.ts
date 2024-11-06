@@ -20,6 +20,9 @@ import CollectionsController from '#controllers/collections_controller'
 import GamesController from '#controllers/games_controller'
 import LikesController from '#controllers/likes_controller'
 import HealthChecksController from '#controllers/health_checks_controller'
+import AchievementsController from '#controllers/achievements_controller'
+import TwoFactorAuthController from '#controllers/two_factor_auth_controller'
+import AccountsController from '#controllers/accounts_controller'
 
 router
   .group(() => {
@@ -110,10 +113,25 @@ router
               guards: ['api'],
             })
           )
+        router
+          .resource('achievements', AchievementsController)
+          .apiOnly()
+          .only(['index'])
+          .use(
+            ['index'],
+            middleware.auth({
+              guards: ['api'],
+            })
+          )
+        router.get('accounts/me', [AccountsController , 'show']).use(middleware.auth({ guards: ['api'] }))
         router.post('auth/login', [SessionsController, 'login'])
         router.post('auth/logout', [SessionsController, 'logout']).use(middleware.auth({ guards: ['api'] }))
         router.get('auth/:provider/redirect', [SessionsController, 'redirect'])
         router.get('auth/:provider/callback', [SessionsController, 'callback'])
+        router.post('auth/otp/generate', [TwoFactorAuthController, 'generate']).use(middleware.auth({ guards: ['api'] }))
+        router.post('auth/otp/verify', [TwoFactorAuthController, 'verify'])
+        router.post('auth/otp/recovery-codes', [TwoFactorAuthController, 'generateRecoveryCodes']).use(middleware.auth({ guards: ['api'] }))
+        router.post('auth/otp/disable', [TwoFactorAuthController, 'disable']).use(middleware.auth({ guards: ['api'] }))
       })
       .prefix('/v1')
   })

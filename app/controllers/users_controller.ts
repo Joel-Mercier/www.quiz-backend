@@ -1,15 +1,14 @@
 import User from '#models/user'
-import { createUserValidator, updateUserValidator } from '#validators/user'
+import UserService from '#services/user_service'
+import { createUserValidator, filterUserValidator, updateUserValidator } from '#validators/user'
 import { cuid } from '@adonisjs/core/helpers'
 import type { HttpContext } from '@adonisjs/core/http'
 import app from '@adonisjs/core/services/app'
 
 export default class UsersController {
   async index({ request }: HttpContext) {
-    const page = request.input('page', 1)
-    const limit = 20
-    const users = await User.query().paginate(page, limit)
-
+    const filters = await filterUserValidator.validate(request.qs())
+    const users = await UserService.getFiltered(filters)
     return users.serialize()
   }
 
@@ -27,7 +26,7 @@ export default class UsersController {
   }
 
   async show({ params }: HttpContext) {
-    const user = await User.findOrFail(params.id)
+    const user = await User.query().preload('quizzes').preload('collections').where('id', params.id).firstOrFail()
     return user.serialize()
   }
 

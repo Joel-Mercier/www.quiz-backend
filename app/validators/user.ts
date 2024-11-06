@@ -1,9 +1,9 @@
+import UserService from '#services/user_service'
 import vine from '@vinejs/vine'
 
 export const createUserValidator = vine.compile(
   vine.object({
-    firstName: vine.string().trim(),
-    lastName: vine.string().trim(),
+    username: vine.string().trim(),
     email: vine
       .string()
       .trim()
@@ -23,8 +23,7 @@ export const createUserValidator = vine.compile(
 
 export const updateUserValidator = vine.withMetaData<{ userId: number }>().compile(
   vine.object({
-    firstName: vine.string().trim(),
-    lastName: vine.string().trim(),
+    username: vine.string().trim(),
     email: vine
       .string()
       .trim()
@@ -45,5 +44,18 @@ export const updateUserValidator = vine.withMetaData<{ userId: number }>().compi
       id: vine.number(),
     }),
     
+  })
+)
+
+export const filterUserValidator = vine.compile(
+  vine.object({
+    limit: vine.number().optional(),
+    page: vine.number().optional(),
+    search: vine.string().trim().optional(),
+    isPublic: vine.boolean().optional(),
+    sort: vine.string().exists(async (db, value) => {
+      return UserService.sortOptions.some((option) => option.key === value)
+    }).optional(),
+    relations: vine.array(vine.string()).optional(),
   })
 )

@@ -13,12 +13,12 @@ class Ws {
       return
     }
 
-    this.booted = true
     this.io = new Server(server.getNodeServer(), {
       cors: {
         origin: '*',
       },
     })
+    this.booted = true
   }
 }
 

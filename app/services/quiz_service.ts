@@ -29,7 +29,7 @@ export default class QuizService {
         })
       })
       .orderBy(sort.field, sort.dir)
-      .paginate(filters.page || 1, filters.limit || 12)
-    return quizzes
+
+    return quizzes.paginate(filters.page || 1, filters.limit || 12)
   }
 }

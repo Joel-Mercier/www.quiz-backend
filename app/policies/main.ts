@@ -21,5 +21,7 @@ export const policies = {
   QuestionTypePolicy: () => import('#policies/question_type_policy'),
   QuestionPolicy: () => import('#policies/question_policy'),
   QuizPolicy: () => import('#policies/quiz_policy'),
-  CategoryPolicy: () => import('#policies/category_policy')
+  CategoryPolicy: () => import('#policies/category_policy'),
+  NotificationPolicy: () => import('#policies/notification_policy'),
+  AchievementPolicy: () => import('#policies/achievement_policy'),
 }
